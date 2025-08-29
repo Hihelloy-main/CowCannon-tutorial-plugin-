@@ -49,7 +49,7 @@ public class CowCommand implements CommandExecutor, TabExecutor {
                 }
 
                 CowSettings.getInstance().setExplodingType(type);
-                commandSender.sendMessage(ChatColor.GREEN + "Set exploding type to" + type);
+                commandSender.sendMessage(ChatColor.GREEN + "Set exploding type to " + type);
 
                 return true;
             }
