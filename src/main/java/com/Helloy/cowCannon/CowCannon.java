@@ -69,7 +69,7 @@ public final class CowCannon extends JavaPlugin {
 
      getServer().getPluginManager().registerEvents(new EntityListener(), this );
      getCommand("cow").setExecutor(new CowCommand());
-     Bukkit.getLogger().info("Ticks equals " + TimeUtil.ticksToSeconds(ticks) + " Seconds" + " Or" + TimeUtil.ticksToHours(ticks) + " Hours");
+     Bukkit.getLogger().info("Ticks equals " + TimeUtil.ticksToSeconds(ticks) + " Seconds" + " Or " + TimeUtil.ticksToHours(ticks) + " Hours");
     }
 
     @Override
