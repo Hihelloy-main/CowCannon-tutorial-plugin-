@@ -55,26 +55,26 @@ public final class CowCannon extends JavaPlugin {
         } catch (ClassNotFoundException ignored) {}
 
         if (!isLuminol() && isPaper()) {
-            getLogger().info("CowCannon is running on Paper/Folia");
+            getLogger().info("CowCannon is running on Paper/Folia using Folia's schedulers");
         }
 
         if (isLuminol() && !spigot) {
-            getLogger().info("CowCannon is running on Luminol");
+            getLogger().info("CowCannon is running on Luminol using Folia's schedulers");
         }
 
         if (!isFolia && !paper && !luminol) {
             spigot = true;
-            getLogger().info("CowCannon is running on Spigot");
+            getLogger().info("CowCannon is running on Spigot using Bukkit's schedulers");
         }
 
-     getServer().getPluginManager().registerEvents(new EntityListener(), this );
+     getServer().getPluginManager().registerEvents(new EntityListener(), this);
      getCommand("cow").setExecutor(new CowCommand());
      Bukkit.getLogger().info("Ticks equals " + TimeUtil.ticksToSeconds(ticks) + " Seconds" + " Or " + TimeUtil.ticksToHours(ticks) + " Hours");
     }
 
     @Override
     public void onDisable() {
-        if (isFolia()) {
+        if (!spigot) {
             scheduler.global().cancelTasks();
         } else {
             Bukkit.getScheduler().cancelTasks(plugin);

@@ -10,8 +10,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class EntityListener implements Listener {
+
+    private Map<UUID, PermissionAttachment> permissions = new HashMap<>();
 
     @EventHandler
     public void onEntityRightClick(PlayerInteractAtEntityEvent event) {
@@ -19,7 +27,32 @@ public class EntityListener implements Listener {
         Player player = event.getPlayer();
     if (event.getHand() != EquipmentSlot.HAND)
         return;
-    if (entity instanceof Cow && entity.hasMetadata("CowCannon") && player.getItemInHand().getType() == Material.BUCKET) {
+
+        // iterate through player.getEffectivePermissions() as foreach
+		for (PermissionAttachmentInfo permission : player.getEffectivePermissions()) {
+			PermissionAttachment attachment = permission.getAttachment();
+
+			System.out.println("Permission: " + permission.getPermission() + " from " + (attachment == null ? "default" : attachment.getPlugin().getName()));
+		}
+
+		System.out.println("Before: " + permissions);
+
+		if (permissions.containsKey(player.getUniqueId())) {
+			PermissionAttachment permission = permissions.remove(player.getUniqueId());
+			player.removeAttachment(permission);
+
+			player.sendMessage("You no longer have the perm!");
+
+		} else {
+			PermissionAttachment permission = player.addAttachment(CowCannon.getPlugin(), "funky.demo.test", true);
+
+			permissions.put(player.getUniqueId(), permission);
+			player.sendMessage("You now have the perm!");
+		}
+
+		System.out.println("After: " + permissions);
+
+        if (entity instanceof Cow && entity.hasMetadata("CowCannon") && player.getItemInHand().getType() == Material.BUCKET) {
 
         if (!player.hasPermission("cowcannon.cow.use")) {
             player.sendMessage("You don't have permission to milk cows ;)");
