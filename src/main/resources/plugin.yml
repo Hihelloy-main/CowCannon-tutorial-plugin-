@@ -9,7 +9,7 @@ folia-supported: true
 commands:
   cow:
     description: Spawn an exploding cow
-    usage: /cow [baby]
+    usage: /cow [set/baby] [entityType]
     aliases:
       - cowcannon
     permission: cowcannon.command.cow
