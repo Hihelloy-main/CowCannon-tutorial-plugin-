@@ -8,12 +8,17 @@ folia-supported: true
 
 commands:
   cow:
-    description: Spawn an exploding cow
+    description: Spawn an exploding living entity
     usage: /cow [set/baby] [entityType]
     aliases:
       - cowcannon
     permission: cowcannon.command.cow
     permission-message: You do not have permission to use this command
+
+  butterfly:
+    description: Toggle particle effect
+    usage: /butterfly
+    permission: cowcannon.command.butterfly
 
 permissions:
   cowcannon.command.cow:
@@ -25,3 +30,7 @@ permissions:
   cowcannon.cow.use:
     description: Allows right-clicking cows to blow them up
     default: false
+
+  cowcannon.command.butterfly:
+    description: Allows players to use /butterfly
+    default: op

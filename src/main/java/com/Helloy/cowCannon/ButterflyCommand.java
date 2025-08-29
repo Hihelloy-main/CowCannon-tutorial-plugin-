@@ -1,0 +1,33 @@
+package com.Helloy.cowCannon;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+
+public final class ButterflyCommand implements CommandExecutor {
+
+    @Override
+    public boolean onCommand( CommandSender sender,  Command command,  String s,  String[] strings) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Only players can use this command!");
+
+            return true;
+        }
+
+        Player player = (Player) sender;
+        ButterflyTask instance = ButterflyTask.getInstance();
+
+        if (instance.hasPlayer(player.getUniqueId())) {
+            instance.removePlayer(player.getUniqueId());
+            player.sendMessage("You are no longer viewing butterfly wings!");
+
+        } else {
+            instance.addPlayer(player.getUniqueId());
+            player.sendMessage("You are now viewing butterfly wings!");
+        }
+
+        return true;
+    }
+}

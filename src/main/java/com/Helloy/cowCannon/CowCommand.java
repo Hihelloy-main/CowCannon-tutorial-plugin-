@@ -29,6 +29,8 @@ public class CowCommand implements CommandExecutor, TabExecutor {
             return true;
         }
 
+        
+
         if (args.length > 1) {
 
             if (args[0].equalsIgnoreCase("set")) {
