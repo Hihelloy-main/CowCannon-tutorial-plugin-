@@ -1,4 +1,4 @@
-package com.Helloy.cowCannon.nms;
+/*package com.Helloy.cowCannon.nms;
 
 import com.Helloy.cowCannon.CowCannon;
 import net.minecraft.sounds.SoundEvent;
@@ -65,4 +65,4 @@ public class PsychoMob1_20 extends SnowGolem {
 		return SoundEvents.WITHER_SKELETON_DEATH;
 	}
 
-}
+}*/
