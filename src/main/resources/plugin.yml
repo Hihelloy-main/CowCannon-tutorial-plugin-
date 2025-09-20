@@ -1,11 +1,17 @@
 name: CowCannon
-version: '1.0'
+version: {project.version}
 main: com.Helloy.cowCannon.CowCannon
 description: A plugin that blows up certain cows upon right clicking them!
 author: Hihelloy
 api-version: '1.20'
 folia-supported: true
-
+libraries:
+  - org.jetbrains:annotations:24.0.1
+  - com.cjcrafter:foliascheduler:0.7.2
+  - net.kyori:adventure-platform-bukkit:4.3.2
+  - net.kyori:adventure-text-minimessage:4.24.0
+  - net.kyori:adventure-api:4.24.0
+  - net.kyroii:adventure-text-serializer-legacy:4.24.0
 commands:
   cow:
     description: Spawn an exploding living entity
@@ -14,11 +20,26 @@ commands:
       - cowcannon
     permission: cowcannon.command.cow
     permission-message: You do not have permission to use this command
-
   butterfly:
     description: Toggle particle effect
     usage: /butterfly
     permission: cowcannon.command.butterfly
+  displayentity:
+    aliases: [ de ]
+    description: Spawns a display entity
+    usage: /displayentity
+    permission: cowcannon.command.displayentity
+  psycho:
+    aliases: [psy]
+    description: Spawns a psycho snowman that shoots snowballs
+    usage: /psycho
+    permission: cowcannon.command.psycho
+  perm:
+    aliases: [p]
+    description: Remove cowcannon.cow.use permission from the player that uses the command
+    usage: /perm
+    permission: cowcannon.command.perm
+
 
 permissions:
   cowcannon.command.cow:
@@ -26,11 +47,12 @@ permissions:
     default: op
     children:
       cowcannon.cow.use: true
-
   cowcannon.cow.use:
     description: Allows right-clicking cows to blow them up
     default: false
-
   cowcannon.command.butterfly:
     description: Allows players to use /butterfly
+    default: op
+  cowcannon.command.displayentity:
+    description: Allows players to use /displayentity
     default: op

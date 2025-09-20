@@ -3,6 +3,7 @@ package com.Helloy.cowCannon.Util;
 
 
 import com.Helloy.cowCannon.CowCannon;
+import com.Helloy.cowCannon.CowSettings;
 import com.cjcrafter.foliascheduler.TaskImplementation;
 import com.cjcrafter.foliascheduler.folia.FoliaTask;
 import org.bukkit.Bukkit;

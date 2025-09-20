@@ -2,6 +2,16 @@ package com.Helloy.cowCannon;
 
 
 
+
+import com.destroystokyo.paper.entity.Pathfinder;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Cow;
 import org.bukkit.entity.Entity;
@@ -51,13 +61,27 @@ public class EntityListener implements Listener {
 			player.sendMessage("You now have the perm!");
 		}
 
-		System.out.println("After: " + permissions);
+        if (CowCannon.isSpigot()) {
+          CowCannon.getAdventure().player(player).sendMessage(Component.text("You clicked on a " + entity.getType().name()).color(TextColor.color(0x00FF00)).decorate(TextDecoration.BOLD).hoverEvent(HoverEvent.showText(Component.text("Right click with a bucket to make it explode!").color(TextColor.color(0xFFFF00)))).decorate(TextDecoration.BOLD));
+           CowCannon.getAdventure().player(player).sendMessage(Component.text("After: " + permissions).color(TextColor.color(0x00FF00)).decorate(TextDecoration.BOLD).hoverEvent(HoverEvent.showText(Component.text("You're now viewing the permissions map!").color(TextColor.color(0xFFFF00)))).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1")));
+        }
+        if (CowCannon.isPaper()) {
+            player.sendMessage(Component.text("You clicked on a " + entity.getType().name()).color(TextColor.color(0x00FF00)).decorate(TextDecoration.BOLD).hoverEvent(HoverEvent.showText(Component.text("Right click with a bucket to make it explode!").color(TextColor.color(0xFFFF00)))).decorate(TextDecoration.BOLD));
+            player.sendMessage(Component.text("After: " + permissions).color(TextColor.color(0x00FF00)).decorate(TextDecoration.BOLD).hoverEvent(HoverEvent.showText(Component.text("You're now viewing the permissions map!").color(TextColor.color(0xFFFF00)))).decorate(TextDecoration.BOLD).clickEvent(ClickEvent.openUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1")));
+        }
+
+
 
         if (entity.getType().equals(CowSettings.getInstance().getExplodingType()) && entity.hasMetadata("CowCannon") && player.getItemInHand().getType() == Material.BUCKET) {
 
 
             if (!player.hasPermission("cowcannon.cow.use")) {
-            player.sendMessage("You don't have permission to milk cows ;)");
+                if (CowCannon.isPaper()) {
+                    player.sendMessage(Component.text("You do not have permission to make this entity explode!").color(TextColor.color(0xFF0000)).decorate(TextDecoration.BOLD).hoverEvent(HoverEvent.showText(Component.text("Missing Permission: cowcannon.cow.use").color(TextColor.color(0xFFFF00)))));
+                }
+                if (CowCannon.isSpigot()) {
+                   CowCannon.getAdventure().player(player).sendMessage(Component.text("You do not have permission to make this entity explode!").color(TextColor.color(0xFF0000)).decorate(TextDecoration.BOLD).hoverEvent(HoverEvent.showText(Component.text("Missing Permission: cowcannon.cow.use").color(TextColor.color(0xFFFF00)))));
+                }
 
             return;
         }
@@ -65,5 +89,6 @@ public class EntityListener implements Listener {
 
             exploding_entity.getWorld().createExplosion(exploding_entity.getLocation(), 2.5F);
         }
+
     }
 }

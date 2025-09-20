@@ -1,12 +1,22 @@
 package com.Helloy.cowCannon;
 
-import com.Helloy.cowCannon.Util.ThreadUtil;
-import com.Helloy.cowCannon.Util.TimeUtil;
+
 import com.cjcrafter.foliascheduler.FoliaCompatibility;
 import com.cjcrafter.foliascheduler.ServerImplementation;
+import com.cjcrafter.foliascheduler.bukkit.BukkitTask;
+import com.cjcrafter.foliascheduler.mappingio.adapter.MappingSourceNsSwitch;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
+
 
 import java.util.logging.Logger;
 
@@ -19,13 +29,17 @@ public final class CowCannon extends JavaPlugin {
     public static boolean spigot;
     public static Logger log;
     private static long ticks;
-    private Object task; // Can be BukkitTask or Folia TaskImplementation
+    private Object task;
+    private BukkitAudiences adventure;
+    private Methods methods;
+    private MappingSourceNsSwitch mappingSourceNsSwitch;
 
     @Override
     public void onEnable() {
         ticks = 600000000;
         plugin = this;
         log = getLogger();
+        methods = new Methods();
 
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
@@ -62,15 +76,16 @@ public final class CowCannon extends JavaPlugin {
             getLogger().info("CowCannon is running on Spigot using Bukkit's schedulers");
         }
 
-        getServer().getPluginManager().registerEvents(new EntityListener(), this);
-        getCommand("cow").setExecutor(new CowCommand());
-        getCommand("butterfly").setExecutor(new ButterflyCommand());
+        methods.RegisterListeners();
+        methods.GetCommands();
         CowSettings.getInstance().load();
+
 
         // Don't cast directly — store as Object
         task = ThreadUtil.runGlobalTimer(ButterflyTask.getInstance(), 0, 1);
 
         Bukkit.getLogger().info("Ticks equals " + TimeUtil.ticksToSeconds(ticks) + " Seconds" + " Or " + TimeUtil.ticksToHours(ticks) + " Hours");
+        ThreadUtil.runGlobalTimer(CowCannon::CheckForHihelloy, 60 * 20, 300 * 20);
     }
 
     @Override
@@ -113,4 +128,27 @@ public final class CowCannon extends JavaPlugin {
     public static boolean isSpigot() {
         return spigot;
     }
+
+    public static long getTicks() {
+        return ticks;
+    }
+
+    public static BukkitAudiences getAdventure() {
+        if (CowCannon.getPlugin().adventure == null) {
+            CowCannon.getPlugin().adventure = BukkitAudiences.create(CowCannon.getPlugin());
+        }
+        return CowCannon.getPlugin().adventure;
+    }
+
+    public static void CheckForHihelloy() {
+        if (PsychoCommand.isPlayerOnline("Hihelloy")) {
+                Bukkit.getLogger().info("Hihelloy is online!");
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.getName().equalsIgnoreCase("Hihelloy")) {
+                    getAdventure().player(player).sendMessage(MiniMessage.miniMessage().deserialize("<red><bold>Hey! You found the secret message!"));
+                }
+            }
+        }
+    }
+
 }

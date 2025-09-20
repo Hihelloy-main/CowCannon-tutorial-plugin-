@@ -25,6 +25,7 @@ public final class ButterflyTask implements Runnable {
         for (final Player player : Bukkit.getOnlinePlayers())
             if (hasPlayer(player.getUniqueId()))
                 generateButterflyWingEffect(player);
+
     }
 
     private void generateButterflyWingEffect(Player player) {
